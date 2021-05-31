@@ -39,7 +39,7 @@ const QueryHeaderFooter = () => {
 };
 
 export default function Success({ location }) {
-  const { email } = location.state;
+  const { email = null } = location.state;
   const { contentfulComponentHeader, contentfulFooter } = QueryHeaderFooter();
   console.log("props success: ", contentfulComponentHeader);
   return (
