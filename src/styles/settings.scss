@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+//Bulma imports
+
+//Fonts
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap");
+$bodyFont: "Roboto Slab", sans-serif;
+$text_xs: 0.75em;
+$text_s: 0.875em;
+$text_m: 1em;
+$text_l: 1.25em;
+$tex_xl: 1.5em;
+$text_title: 2em;
+
+//Colors
+
+$green: #0ebd1d;
+$darkGreen: rgb(1, 82, 1);
+$white: #fff;
+$background: #fffafa;
+$body-background-color: $background;
+
+//Breakpoints
+
+$breakpoint_mobile: 480px;
+$breakpoint_tablet: 768px;
+$breakpoint_laptop: 1024px;
+$breakpoint_desktop: 1200px;

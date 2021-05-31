@@ -1,0 +1,12 @@
+@import "../../node_modules/bulma/bulma.sass";
+
+@import "./settings";
+
+@import "./_global";
+@import "./components/Header/_header";
+@import "./components/Carousel/_carousel";
+@import "./components/Card/_card";
+@import "./components/Form/_form";
+@import "./components/Footer/_footer";
+@import "react-date-range/dist/styles.css";
+@import "react-date-range/dist/theme/default.css";

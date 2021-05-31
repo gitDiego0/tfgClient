@@ -1,0 +1,36 @@
+.footer {
+  background-color: $green;
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 1.5rem 1.5rem;
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    & img {
+      height: 150px;
+    }
+  }
+
+  .contact {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button {
+    background-color: $darkGreen;
+    color: $white;
+    border: none;
+    box-shadow: 1.5px 2px 1px #001010;
+    font-weight: 600;
+
+    &:nth-child(2) {
+      margin-top: 1vh;
+    }
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}

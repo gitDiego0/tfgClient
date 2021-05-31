@@ -1,0 +1,54 @@
+.card {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 2vh;
+  h1 {
+    text-align: center;
+  }
+
+  .card-header {
+    box-shadow: none;
+    border-bottom: 2px solid $green;
+  }
+
+  .card-image {
+    padding: 1em 1em;
+  }
+
+  .center {
+    position: relative;
+    left: 50%;
+    transform: translateY(-50%);
+    button {
+      background-color: $green;
+    }
+  }
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .content {
+    max-width: 50%;
+    margin: 1vh 1vw 0 0;
+
+    @media screen and (max-width: $breakpoint_mobile) {
+      font-size: $text_s;
+    }
+
+    &.is-center {
+      max-width: 100vw;
+      margin: 1vh 1vw 0 0;
+      text-align: center;
+    }
+
+    &.is-full-width {
+      max-width: 100%;
+    }
+
+    hr {
+      border-top: 2px solid black;
+    }
+  }
+}
