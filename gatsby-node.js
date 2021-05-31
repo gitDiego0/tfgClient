@@ -42,13 +42,13 @@ exports.createPages = ({ actions, graphql }) => {
 };
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  if (stage === "build-html") {
+  if (stage === "build-html" || stage === "develop-html") {
     actions.setWebpackConfig({
       module: {
         rules: [
           {
-            test: /msal/,
-            use: [loaders.null()],
+            test: /bad-module/,
+            use: loaders.null(),
           },
         ],
       },
