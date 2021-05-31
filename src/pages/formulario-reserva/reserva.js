@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Form from "../../components/Form/Form";
 
+import "../styles/style.scss";
 //Componente interno de la pagina que se encarga de cargar las propiedades
 // del componenete Header y Footer
 const HeaderFooterProps = () => {
