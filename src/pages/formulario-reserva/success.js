@@ -39,7 +39,8 @@ const QueryHeaderFooter = () => {
 };
 
 export default function Success({ location }) {
-  const { email = null } = location.state;
+  const { email } =
+    location.state === "undefined" ? "prueba@gmail.com" : location.state;
   const { contentfulComponentHeader, contentfulFooter } = QueryHeaderFooter();
   console.log("props success: ", contentfulComponentHeader);
   return (
