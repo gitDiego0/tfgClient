@@ -40,3 +40,18 @@ exports.createPages = ({ actions, graphql }) => {
   });
   return Promise.all([page]);
 };
+
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === "build-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /msal/,
+            use: [loaders.null()],
+          },
+        ],
+      },
+    });
+  }
+};
