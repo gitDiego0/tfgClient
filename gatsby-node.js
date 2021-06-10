@@ -4,6 +4,14 @@ const slugify = require("slugify");
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions;
   const pageTemplate = path.resolve("src/templates/page-template.js");
+  const hostalTemplate = path.resolve("src/templates/hostal-template.js");
+  const restaurantTemplate = path.resolve(
+    "src/templates/restaurant-template.js"
+  );
+  const adminTemplate = path.resolve("src/templates/admin-template.js");
+  const adminInicioTemplate = path.resolve(
+    "src/templates/admin_inicio-template.js"
+  );
 
   const page = graphql(`
     query pages {
@@ -22,9 +30,10 @@ exports.createPages = ({ actions, graphql }) => {
       allContentfulPage: { nodes },
     } = result.data;
 
-    console.log(nodes);
+    // console.log(nodes);
 
     nodes.forEach((node) => {
+      console.log("node.title: ", node.title);
       const slug = slugify(node.title, {
         replacement: "-",
         remove: null,
@@ -33,25 +42,19 @@ exports.createPages = ({ actions, graphql }) => {
       const path = `/${slug}`;
       createPage({
         path,
-        component: pageTemplate,
+        component:
+          node.title === "Hostal"
+            ? hostalTemplate
+            : node.title === "Restaurante"
+            ? restaurantTemplate
+            : node.title === "Admin"
+            ? adminTemplate
+            : node.title === "Admin-Inicio"
+            ? adminInicioTemplate
+            : pageTemplate,
         context: { id: node.id },
       });
     });
   });
   return Promise.all([page]);
-};
-
-exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  if (stage === "build-html" || stage === "develop-html") {
-    actions.setWebpackConfig({
-      module: {
-        rules: [
-          {
-            test: /bad-module/,
-            use: loaders.null(),
-          },
-        ],
-      },
-    });
-  }
 };

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "gatsby";
 import useWindowSize from "../../hooks/useWindowSize";
+import { roomContext } from "../../hooks/contexto";
 
 export default function CardRoom({
   image,
@@ -19,7 +20,7 @@ export default function CardRoom({
     numeroHabitacion: `${numeroHabitacion}`,
     precio: `${precio}`,
   };
-  console.log("card room", precio);
+  const context = useContext(roomContext);
   return width >= 992 ? (
     <div className="card">
       <header className="">
@@ -49,9 +50,13 @@ export default function CardRoom({
       </div>
       <div className="center">
         <Link
-          to={`/formulario-reserva/reserva`}
+          to={`/formulario-reservas`}
           state={roomInfo}
           className="button green"
+          onClick={() => {
+            context.numeroHabitacion = numeroHabitacion;
+            context.precio = precio;
+          }}
         >
           Reservar
         </Link>
@@ -86,7 +91,7 @@ export default function CardRoom({
       </div>
       <div className="center">
         <Link
-          to={`/formulario-reserva/reserva`}
+          to={`/formulario-reservas`}
           state={roomInfo}
           className="button green"
         >

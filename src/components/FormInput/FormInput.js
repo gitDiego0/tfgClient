@@ -1,29 +1,59 @@
 import React, { useReducer } from "react";
 import ComponentList from "../../utils/ComponentList";
 
-export default function FormInput({ inputs }, props) {
-  console.log(props)
+export default function FormInput(props) {
+  const { inputs } = props;
+
+  const handleChange = (event) => {
+    props.onChange({ [event.target.name]: event.target.value });
+  };
   return (
     <div className="field">
-      {/* {inputs.map((input, index) => {
-        const Component = ComponentList[input.__typename];
-        return Component ? <Component key={index} {...input} /> : null;
-      })} */}
-
       {inputs.map((item, index) => {
+        console.log("item: ", item.required);
         const Component = item.__typename;
-        console.log("item form: ", item);
         return Component === "ContentfulItemLabelTag" ? (
-          <label id={item.name} className="label">
+          <label id={item.name} className="label" key={index}>
             {item.text}
           </label>
-        ) : (
+        ) : item.type === "textarea" ? (
+          item.required ? (
+            <textarea
+              id={item.title}
+              className="textarea has-fixed-size"
+              name={item.name}
+              placeholder={item.placeholder}
+              onChange={handleChange}
+            ></textarea>
+          ) : (
+            <textarea
+              id={item.title}
+              className="textarea"
+              name={item.name}
+              placeholder={item.placeholder}
+              onChange={handleChange}
+            ></textarea>
+          )
+        ) : item.required ? (
           <input
-            id={item.name}
+            id={item.title}
             type={item.type}
+            name={item.name}
             placeholder={item.placeholder}
             className="input"
-            onChange={(event) => props.onChange(event.target.value)}
+            onChange={handleChange}
+            key={index}
+            required
+          />
+        ) : (
+          <input
+            id={item.title}
+            type={item.type}
+            name={item.name}
+            placeholder={item.placeholder}
+            className="input"
+            onChange={handleChange}
+            key={index}
           />
         );
       })}

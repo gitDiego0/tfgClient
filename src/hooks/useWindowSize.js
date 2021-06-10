@@ -27,22 +27,17 @@ import React, { useEffect, useState } from "react";
 //   return windowSize;
 
 export default function useWindowSize() {
-  let windowHeight;
-  let windowWidth;
-  if (typeof window !== "undefined") {
-    height = window.innerHeight;
-    width = window.innerWidth;
-  }
-  // const isSSR = typeof window !== "undefined";
+  const isSSR = typeof window === "undefined";
   const [windowSize, setWindowSize] = useState({
-    width: windowWidth,
-    height: windowHeight,
+    width: isSSR ? 1200 : window.innerWidth,
+    height: isSSR ? 800 : window.innerHeight,
   });
 
+  function changeWindowSize() {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  }
+
   useEffect(() => {
-    function changeWindowSize() {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-    }
     window.addEventListener("resize", changeWindowSize);
 
     return () => {

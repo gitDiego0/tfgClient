@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { Link } from "gatsby";
 
 export default function Header({ id, name, items, logo }) {
+  const handleMenu = () => {
+    setIsActive(!isActive);
+  };
 
-  const handleMenu = ()=> {
-    setIsActive(!isActive)
-  }
-
-  const [isActive, setIsActive] = useState(false)
-  console.log("Items header", logo);
+  const [isActive, setIsActive] = useState(false);
   return (
     <header>
       <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -30,7 +28,10 @@ export default function Header({ id, name, items, logo }) {
             <span aria-hidden="true"></span>
           </a>
         </div>
-        <div id="navbarBasicExample" className={`navbar-menu ${isActive ? "is-active" : ""}`}>
+        <div
+          id="navbarBasicExample"
+          className={`navbar-menu ${isActive ? "is-active" : ""}`}
+        >
           <div className="navbar-end">
             {items.map((item, index) => (
               <Link

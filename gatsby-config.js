@@ -14,6 +14,14 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-paypal`,
+      options: {
+        clientId: `AQn2sD9T6S6P7JER_d-kVqS0RjN467WDmoJwR0UBBDDTV89CYyNMVoYngM-cXG3HbquzwFRLDczXUD1i`,
+        currency: `EUR`,
+        vault: true,
+      },
+    },
+    {
       resolve: "gatsby-source-contentful",
       options: {
         accessToken: "qijCKtuKmwIB6w35rBoZpQa45B3bro4UaJg85zvjSLo",

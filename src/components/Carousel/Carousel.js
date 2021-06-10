@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 export default function Carousel({ images }) {
-  console.log("images", images);
   const [actual, setActual] = useState(0);
   const [images2, setImages] = useState(images);
   const length = images.length;
@@ -14,7 +13,6 @@ export default function Carousel({ images }) {
   useEffect(() => {
     setTimeout(() => {
       slideImage();
-      console.log("hola");
     }, 60000);
   });
 
@@ -23,7 +21,6 @@ export default function Carousel({ images }) {
       <section className="container">
         <div className="slider">
           {images2.map(({ image }, index) => {
-            console.log("image1", image);
             return (
               <div
                 className={
@@ -31,15 +28,13 @@ export default function Carousel({ images }) {
                 }
                 key={index}
               >
-                {index > -1 &&
-                  (console.log("image", image),
-                  (
-                    <img
-                      className="slider-image"
-                      src={image.fluid.srcWebp}
-                      alt={image.title}
-                    />
-                  ))}
+                {index > -1 && (
+                  <img
+                    className="slider-image"
+                    src={image.fluid.srcWebp}
+                    alt={image.title}
+                  />
+                )}
               </div>
             );
           })}

@@ -1,27 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import { graphql } from "gatsby";
 
 import Layout from "../components/layout.js";
+import SEO from "../components/Seo/SEO";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 
+import { generalContext, roomContext } from "../hooks/contexto";
 import ComponentList from "../utils/ComponentList";
 
 import "../styles/style.scss";
 
-const pageTemplate = ({ data }) => {
+const PageTemplate = ({ data }) => {
   const pageQuery = data.contentfulPage;
-  const { items, header, footer } = pageQuery;
+  const { items, header, footer, title } = pageQuery;
 
-  console.log(data);
+  const contexto = useContext(generalContext);
+  contexto.header = { ...header };
+  contexto.footer = { ...footer };
+
+  console.log("data", data);
 
   return (
     <>
+      <SEO />
       <Header {...header} />
       <Layout>
         {items.map((item, index) => {
           // console.log("item", item);
           const Component = ComponentList[item.__typename];
+          console.log("component: ", Component);
           return Component ? <Component key={index} {...item} /> : null;
         })}
       </Layout>
@@ -48,6 +56,41 @@ export const pageQuery = graphql`
         }
       }
       items {
+        ... on ContentfulItemCalendario {
+          __typename
+          id
+          name
+          fechaMaxima
+          fechaMinima
+        }
+        ... on ContentfulComponentContactForm {
+          __typename
+          id
+          name
+          items {
+            ... on ContentfulComponentFormInput {
+              __typename
+              name
+              title
+              inputs {
+                ... on ContentfulItemInput {
+                  __typename
+                  name
+                  title
+                  type
+                  placeholder
+                  required
+                }
+                ... on ContentfulItemLabelTag {
+                  __typename
+                  name
+                  title
+                  text
+                }
+              }
+            }
+          }
+        }
         ... on ContentfulComponentFormulario {
           __typename
           name
@@ -151,4 +194,4 @@ export const pageQuery = graphql`
   }
 `;
 
-export default pageTemplate;
+export default PageTemplate;

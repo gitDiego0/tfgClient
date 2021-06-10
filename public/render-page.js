@@ -2002,6 +2002,15 @@ function useScrollRestoration(identifier) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var plugins = [{
+  name: 'gatsby-plugin-paypal',
+  plugin: __webpack_require__(/*! ./node_modules/gatsby-plugin-paypal/gatsby-ssr */ "./node_modules/gatsby-plugin-paypal/gatsby-ssr.js"),
+  options: {
+    "plugins": [],
+    "clientId": "AQn2sD9T6S6P7JER_d-kVqS0RjN467WDmoJwR0UBBDDTV89CYyNMVoYngM-cXG3HbquzwFRLDczXUD1i",
+    "currency": "EUR",
+    "vault": true
+  }
+}, {
   name: 'gatsby-plugin-google-analytics',
   plugin: __webpack_require__(/*! ./node_modules/gatsby-plugin-google-analytics/gatsby-ssr */ "./node_modules/gatsby-plugin-google-analytics/gatsby-ssr.js"),
   options: {
@@ -3657,6 +3666,54 @@ var _default = function _default(pathname, localizedManifests) {
 };
 
 exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/gatsby-plugin-paypal/gatsby-ssr.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/gatsby-plugin-paypal/gatsby-ssr.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+exports.__esModule = true;
+exports.onRenderBody = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
+
+var onRenderBody = function onRenderBody(_ref, pluginOptions) {
+  var setHeadComponents = _ref.setHeadComponents;
+
+  if (!(pluginOptions === null || pluginOptions === void 0 ? void 0 : pluginOptions.clientId)) {
+    return null;
+  }
+
+  var src = "https://www.paypal.com/sdk/js?client-id=" + pluginOptions.clientId;
+
+  if (pluginOptions.currency) {
+    src = src + ("&currency=" + pluginOptions.currency);
+  } else {
+    src = src + "&currency=USD";
+  }
+
+  if (pluginOptions.vault) {
+    src = src + "&vault=true";
+  }
+
+  var sdkPaypal = /*#__PURE__*/_react.default.createElement("script", {
+    key: "paypal-script",
+    src: src,
+    "data-sdk-integration-source": "button-factory"
+  });
+
+  setHeadComponents([sdkPaypal]);
+};
+
+exports.onRenderBody = onRenderBody;
 
 /***/ }),
 
@@ -11203,24 +11260,24 @@ module.exports = withSideEffect;
 /***/ }),
 
 /***/ "react-dom/server":
-/*!*************************************************************************************************!*\
-  !*** external "/media/diegovm/Workspace/TFG/hostalapp-gatsby/node_modules/react-dom/server.js" ***!
-  \*************************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** external "/media/diego/Workspace/TFG/hostalapp-gatsby/node_modules/react-dom/server.js" ***!
+  \***********************************************************************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("/media/diegovm/Workspace/TFG/hostalapp-gatsby/node_modules/react-dom/server.js");;
+module.exports = require("/media/diego/Workspace/TFG/hostalapp-gatsby/node_modules/react-dom/server.js");;
 
 /***/ }),
 
 /***/ "react":
-/*!********************************************************************************************!*\
-  !*** external "/media/diegovm/Workspace/TFG/hostalapp-gatsby/node_modules/react/index.js" ***!
-  \********************************************************************************************/
+/*!******************************************************************************************!*\
+  !*** external "/media/diego/Workspace/TFG/hostalapp-gatsby/node_modules/react/index.js" ***!
+  \******************************************************************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("/media/diegovm/Workspace/TFG/hostalapp-gatsby/node_modules/react/index.js");;
+module.exports = require("/media/diego/Workspace/TFG/hostalapp-gatsby/node_modules/react/index.js");;
 
 /***/ }),
 

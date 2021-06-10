@@ -35,6 +35,9 @@ export default function Footer({
             <Link to="/restaurante" className="button is-fullwidth">
               Visita el restaurante
             </Link>
+            <Link to="/sobre-nosotros" className="button is-fullwidth">
+              Sobre nosotros
+            </Link>
           </div>
         </div>
       </footer>
