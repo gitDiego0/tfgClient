@@ -12,7 +12,7 @@ const firebaseConfig = {
 
 if(typeof window !== 'undefined'){
 	
-return !firebase.apps.length && firebase.initializeApp(firebaseConfig);
+ !firebase.apps.length && firebase.initializeApp(firebaseConfig);
 }
 
 
