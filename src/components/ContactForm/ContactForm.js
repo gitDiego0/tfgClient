@@ -16,7 +16,7 @@ export default function ContactForm(props) {
         valores,
       }),
     };
-    fetch(`http://127.0.0.1:3000/contact`, requestOptions).then((req) => {
+    fetch(`http://18.218.182.220:3000/contact`, requestOptions).then((req) => {
       if (req.status === 200) {
         alert("hola");
       } else {
