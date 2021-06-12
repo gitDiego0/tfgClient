@@ -5,7 +5,7 @@ module.exports = {
     app.use(
       "/api",
       proxy({
-        target: "http://localhost:3000",
+        target: "http://http://18.218.182.220:3000",
       })
     );
   },

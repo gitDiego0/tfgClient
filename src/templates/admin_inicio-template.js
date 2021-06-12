@@ -93,7 +93,7 @@ const Anadir = ({ items }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({}),
     };
-    fetch(`http://127.0.0.1:3000/anadirbebida`, requestOptions).then((req) => {
+    fetch(`http://18.218.182.220:3000/anadirbebida`, requestOptions).then((req) => {
       req.status === 200 ? console.log("ok") : console.log("error");
     });
   };
