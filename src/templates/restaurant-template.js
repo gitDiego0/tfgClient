@@ -35,7 +35,7 @@ export default function RestaurantTemplate({ data }) {
   const [collapse, setCollapse] = useState(false);
 
   useEffect(() => {
-    fetch("/api/categorias")
+    fetch("http://18.218.182.220:3000/api/categorias")
       .then((request) => {
         const object = request.json();
         return object;
@@ -53,7 +53,7 @@ export default function RestaurantTemplate({ data }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/api/bebidas")
+    fetch("http://18.218.182.220:3000/api/bebidas")
       .then((request) => {
         // return res.json();
         const object = request.json();
