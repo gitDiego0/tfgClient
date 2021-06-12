@@ -10,7 +10,7 @@ const firebaseConfig = {
   measurementId: "G-62G9E0X17J",
 };
 
-if (typeof window !== "undefined") {
+if (typeof window === "undefined") {
   !firebase.apps.length && firebase.initializeApp(firebaseConfig);
 }
 
