@@ -5,7 +5,7 @@ module.exports = {
     app.use(
       "/api",
       proxy({
-        target: "http://http://18.218.182.220:3000",
+        target: "http://18.218.182.220:3000",
       })
     );
   },
@@ -44,4 +44,19 @@ module.exports = {
       },
     },
   ],
+};
+
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === "build-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /firebase/,
+            use: loaders.null(),
+          },
+        ],
+      },
+    });
+  }
 };

@@ -7,7 +7,6 @@ import Footer from "../components/Footer/Footer";
 import Layout from "../components/layout.js";
 import SEO from "../components/Seo/SEO";
 
-import checkPass from "../hooks/checkPass";
 import useUser, { USER_STATES } from "../hooks/useUser";
 import { loginWithEmail } from "../firebase/firebase";
 
@@ -44,25 +43,29 @@ export default function AdminTemplate({ data }) {
       <SEO />
       <Header {...header} />
       <Layout>
-        <form onSubmit={handleSubmit}>
-          {items.map((item, index) => {
-            const Component = ComponentList[item.__typename];
-            return Component ? (
-              <Component key={index} onChange={handleChange} {...item} />
-            ) : null;
-          })}
-          <div className="field is-grouped">
-            <p className="control">
-              <button type="submit" className="button green">
-                {" "}
-                Acceder
-              </button>
-            </p>
-            <p className="control">
-              <a className="button is-light">Cambiar contraseña</a>
-            </p>
+        <div className="card">
+          <div className="card-content">
+            <form onSubmit={handleSubmit}>
+              {items.map((item, index) => {
+                const Component = ComponentList[item.__typename];
+                return Component ? (
+                  <Component key={index} onChange={handleChange} {...item} />
+                ) : null;
+              })}
+              <div className="field is-grouped">
+                <p className="control">
+                  <button type="submit" className="button green">
+                    {" "}
+                    Acceder
+                  </button>
+                </p>
+                <p className="control">
+                  <a className="button is-light">Cambiar contraseña</a>
+                </p>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </Layout>
       <Footer {...footer} />
     </>

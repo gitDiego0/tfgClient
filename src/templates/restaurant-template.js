@@ -15,8 +15,6 @@ import ComponentList from "../utils/ComponentList";
 
 import "../styles/style.scss";
 
-const Carta = ({ item }) => {};
-
 export default function RestaurantTemplate({ data }) {
   const restaurantQuery = data.contentfulPage;
   const { items, header, footer } = restaurantQuery;
@@ -24,14 +22,14 @@ export default function RestaurantTemplate({ data }) {
   //Estados donde se almacenan los diferentes props a usar en la pagina
   const [categorias, setCategorias] = useState();
   const [carta, setCarta] = useState();
-  const [cartaBebidas, setCartaBebidas] = useState();
   const [cartaRefrescos, setCartaRefrescos] = useState();
   const [cartaAguas, setCartaAguas] = useState();
+  const [cartaAlcohol, setCartaAlcohol] = useState();
+  const [cartaEntrantes, setCartaEntrantes] = useState();
 
-  const [q, setQ] = useState("");
-  const [filterParam, setFilterParam] = useState(["Todos"]);
   //Estado que indica si la pagina esta cargando.Se usa para cambiar comportamientos de componentes dependiendo si la pagina esta cargada o no
   const [loading, setLoading] = useState(true);
+  //Estado que controla si se abre o se cierra el menu desplegable
   const [collapse, setCollapse] = useState(false);
 
   useEffect(() => {
@@ -66,16 +64,19 @@ export default function RestaurantTemplate({ data }) {
 
           // setCarta([result]);
           const { bebidas } = objeto;
-          bebidas.map(({ refrescos, aguas }) => {
+          bebidas.map(({ refrescos, aguas, alcohol }) => {
             if (refrescos !== undefined) {
               setCartaRefrescos(refrescos);
             } else if (aguas !== undefined) {
               setCartaAguas(aguas);
+            } else if (alcohol !== undefined) {
+              setCartaAlcohol(alcohol);
             }
           });
 
-          setCartaBebidas(bebidas);
+          // setCartaBebidas(bebidas);
           setCarta(cartaRefrescos);
+          console.log("carta :", carta);
         },
         (error) => {
           console.log("error: ", error);
@@ -88,12 +89,20 @@ export default function RestaurantTemplate({ data }) {
       });
   }, []);
 
-  // function filter(items) {
-  //   items.filter((item) => {
-  //     console.log(item);
-  //   });
-  //   console.log("items para filtrar", items);
-  // }
+  useEffect(() => {
+    setLoading(true);
+    fetch("http://18.218.182.220:3000/api/entrantes")
+      .then((request) => {
+        const object = request.json();
+        return object;
+      })
+      .then((objeto) => {
+        setCartaEntrantes(objeto);
+      })
+      .catch((err) => {
+        return console.log(err.message);
+      });
+  }, []);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -118,11 +127,6 @@ export default function RestaurantTemplate({ data }) {
                   </header>
                   <div className="card-content is-flex-direction-column">
                     <div className="content">
-                      {/* <Filtros
-                        onChange={setCarta}
-                        seleccionado={carta}
-                        categorias={categorias}
-                      />  */}
                       {categorias === undefined ? (
                         <Spinner loading={loading} />
                       ) : (
@@ -144,7 +148,7 @@ export default function RestaurantTemplate({ data }) {
                                 }
                               >
                                 <div>
-                                  <button
+                                  <span
                                     onClick={() => {
                                       setCarta(cartaRefrescos);
                                     }}
@@ -152,10 +156,10 @@ export default function RestaurantTemplate({ data }) {
                                   >
                                     {" "}
                                     Refrescos
-                                  </button>
+                                  </span>
                                 </div>
                                 <div>
-                                  <button
+                                  <span
                                     onClick={() => {
                                       setCarta(cartaAguas);
                                     }}
@@ -163,28 +167,46 @@ export default function RestaurantTemplate({ data }) {
                                   >
                                     {" "}
                                     Aguas
-                                  </button>
+                                  </span>
+                                </div>
+                                <div>
+                                  <span
+                                    onClick={() => setCarta(cartaAlcohol)}
+                                    className="mt-2 button green"
+                                  >
+                                    Alcohol
+                                  </span>
                                 </div>
                               </div>
                             </div>
-                          ) : (
+                          ) : nombre === "Entrante" ? (
                             <div className=" mt2">
-                              <input
-                                id={nombre}
-                                value={nombre}
-                                type="checkbox"
-                                onClick={(e) =>
-                                  setFilterParam(
-                                    { ...filterParam },
-                                    e.target.value
-                                  )
-                                }
-                              />
-                              <label className="checkbox" htmlFor={nombre}>
+                              <span
+                                onClick={() => setCarta(cartaEntrantes)}
+                                className=" mt-2 button green"
+                              >
                                 {nombre}
-                              </label>
+                              </span>
                             </div>
-                          );
+                          ) : nombre === "Platos frios" ? (
+                            <div className=" mt2">
+                              <span className=" mt-2 button green">
+                                {nombre}
+                              </span>
+                            </div>
+                          ) : nombre === "Platos calientes" ? (
+                            <div className=" mt2">
+                              <span className=" mt-2 button green">
+                                {nombre}
+                              </span>
+                            </div>
+                          ) : nombre === "Postre" ? (
+                            <div className=" mt2">
+                              <span className=" mt-2 button green">
+                                {nombre}
+                              </span>
+                            </div>
+                          ) : null;
                         })
                       )}
                     </div>

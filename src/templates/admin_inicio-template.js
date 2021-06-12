@@ -67,41 +67,141 @@ const Operaciones = ({ setOperacion }) => {
   );
 };
 
-const Anadir = ({ items }) => {
+const Categorias = ({ setCategoria }) => {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <div className="columns mt-3 pl-3 pr-3 has-text-centered">
+      <div className="column">
+        <div className={isActive ? "dropdown is-active" : "dropdown"}>
+          <span
+            onClick={() => setIsActive(!isActive)}
+            className="button is-light"
+          >
+            Bebidas
+          </span>
+          <div className="dropdown-menu">
+            <div className="dropdown-content">
+              <span
+                onClick={() => setCategoria("Agua")}
+                className="button is-light dropdown-item mt-1"
+              >
+                {" "}
+                Aguas
+              </span>
+              <span
+                onClick={() => setCategoria("Refresco")}
+                className="button is-light dropdown-item mt-1"
+              >
+                {" "}
+                Refrescos
+              </span>
+              <span
+                onClick={() => setCategoria("Alcohol")}
+                className="button is-light dropdown-item mt-1"
+              >
+                {" "}
+                Alcohol
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="column">
+        <span
+          onClick={() => {
+            setCategoria("Entrante");
+          }}
+          className="button is-light"
+        >
+          Entrantes
+        </span>
+      </div>
+      <div className="column">
+        <span className="button is-light">Plato caliente</span>
+      </div>
+      <div className="column">
+        <span className="button is-light">Plato frio</span>
+      </div>
+      <div className="column ">
+        <span className="button is-light">Postre</span>
+      </div>
+    </div>
+  );
+};
+
+const Anadir = (categoria) => {
   const [valores, setValores] = useState();
-  const [imagenFile, setImagenFile] = useState(undefined);
+  const [disable, setDisable] = useState(true);
+  // const [imagenFile, setImagenFile] = useState(undefined);
   const [imagenUrl, setImagenUrl] = useState(null);
   const [task, setTask] = useState(null);
+  console.log("categoria: ", categoria);
+  useEffect(() => {
+    if (categoria === "Entrante") {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [categoria]);
 
   useEffect(() => {
     if (task) {
-      task.snapshot.ref.getDownloadURL().then(setImagenUrl);
+      const onProgress = () => {};
+      const onError = () => {};
+      const onComplete = () => {
+        // console.log(
+        //   task.snapshot.ref.getDownloadURL().then((objeto) => {
+        //     console.log("objeto: ", objeto);
+        //   })
+        // );
+        task.snapshot.ref.getDownloadURL().then((url) => {
+          setValores({
+            ...valores,
+            ["imagen"]: url,
+          });
+          setImagenUrl(url);
+        });
+      };
+      task.on("state_changed", onProgress, onError, onComplete);
     }
   }, [task]);
+
+  useEffect(() => {
+    setValores({
+      ...valores,
+      ...categoria,
+    });
+  }, [categoria]);
+
   const handleChange = (ev) => {
-    ev.target.name === "imagen"
-      ? setImagenFile(ev.target.files[0])
-      : setValores({
-          ...valores,
-          [ev.target.name]: ev.target.value,
-        });
+    setValores({
+      ...valores,
+      [ev.target.name]: ev.target.value,
+    });
   };
 
   const sendForm = async () => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
+      body: JSON.stringify({ valores }),
     };
-    fetch(`http://18.218.182.220:3000/anadirbebida`, requestOptions).then((req) => {
-      req.status === 200 ? console.log("ok") : console.log("error");
+    fetch(`http://127.0.0.1:3000/anadirbebida`, requestOptions).then((req) => {
+      console.log("req", req.status);
+      req.status === 200 ? console.log(req) : console.log("error");
     });
+  };
+  const handleImage = (ev) => {
+    const image = ev.target.files[0];
+    const task = uploadImage(image);
+    setTask(task);
   };
 
   const handleSubmit = () => {
-    const task = uploadImage(imagenFile);
-    setTask(task);
+    console.log("imagenURl: ", valores);
     sendForm();
+    // sendForm();
   };
 
   return (
@@ -121,7 +221,7 @@ const Anadir = ({ items }) => {
           <label className="label">Imagen</label>
           <input
             className="input"
-            onChange={handleChange}
+            onChange={handleImage}
             name="imagen"
             type="file"
           />
@@ -147,6 +247,17 @@ const Anadir = ({ items }) => {
           />
         </div>
         <div className="field">
+          <label className="label">Ingredientes</label>
+          <input
+            className="input"
+            name="ingredientes"
+            placeholder="Introduce los ingredientes separados por ,"
+            onChange={handleChange}
+            type="text"
+            disabled={disable ? "" : "disabled"}
+          />
+        </div>
+        <div className="field">
           <span onClick={handleSubmit} className="button green">
             <p>Añadir</p>
           </span>
@@ -161,7 +272,7 @@ export default function AdminInicioTemplate({ data }) {
   const { header, footer } = adminInicioQuery;
 
   const [operacion, setOperacion] = useState(STATES.INICIO);
-  const [formAnadir, setFormAnadir] = useState([]);
+  const [categoria, setCategoria] = useState();
 
   const user = useUser();
 
@@ -179,9 +290,12 @@ export default function AdminInicioTemplate({ data }) {
               <header className="card-header">
                 <p className="card-header-title title">{operacion}</p>
               </header>
+              <Categorias setCategoria={setCategoria} />
               <div className="card-content">
                 <div className="content">
-                  {operacion === STATES.AÑADIR ? <Anadir /> : null}
+                  {operacion === STATES.AÑADIR ? (
+                    <Anadir categoria={categoria} />
+                  ) : null}
                 </div>
               </div>
             </div>

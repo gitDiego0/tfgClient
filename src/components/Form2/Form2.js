@@ -22,7 +22,7 @@ export default function Form2(props) {
       }),
     };
     fetch(
-      `http://18.218.182.220:3000/form-submited/${context.numeroHabitacion}`,
+      `http://127.0.0.1:3000/form-submited/${context.numeroHabitacion}`,
       requestOptions
     ).then((req) => {
       req.status === 200
