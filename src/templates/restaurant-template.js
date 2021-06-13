@@ -73,7 +73,7 @@ export default function RestaurantTemplate({ data }) {
   }, []);
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return console.log(error.message)
   } else {
     return (
       <>
