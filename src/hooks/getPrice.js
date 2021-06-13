@@ -5,7 +5,7 @@ export default function getPrice(precioHabitacion, fechaEntrada, fechaSalida) {
 
   // const precioFinal = precioHabitacion * dias;
 
-  const diff = fechaSalida.getTime() - fechaEntrada.getTime();
+  const diff = new Date(fechaSalida).getTime() - new Date(fechaEntrada).getTime();
 
   const dias = diff / (1000 * 3600 * 24);
   if (dias === 0) {
