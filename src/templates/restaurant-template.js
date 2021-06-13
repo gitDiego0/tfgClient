@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { graphql } from "gatsby";
+import axios from "axios";
 
 import Layout from "../components/layout.js";
 import SEO from "../components/Seo/SEO";
@@ -72,8 +73,33 @@ export default function RestaurantTemplate({ data }) {
     });
   }, []);
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch("http://127.0.0.1:3000/api/entrantes")
+  //     .then((request) => {
+  //       const object = request.json();
+  //       return object;
+  //     })
+  //     .then((objeto) => {
+  //       setCartaEntrantes(objeto);
+  //     })
+  //     .catch((err) => {
+  //       setLoading(false);
+  //       return console.log(err.message);
+  //     });
+  // }, []);
+
+  if (error !== null) {
+    return (
+      <>
+        <SEO />
+        <Header {...header} />
+        <Layout>
+          <div>Error: {`${error}`}</div>;
+        </Layout>
+        <Footer {...footer} />
+      </>
+    );
   } else {
     return (
       <>
@@ -260,34 +286,3 @@ export const restaurantQuery = graphql`
     }
   }
 `;
-
-// {cartaBebidas === undefined ? (
-//   <Spinner loading={loading} />
-// ) : (
-//   cartaBebidas.map(({ refrescos, aguas }) => {
-//     {
-//       if (refrescos) {
-//         return refrescos.map((refresco, index) => {
-//           return (
-//             <div className="column is-one-quarter">
-//               <CardItem
-//                 key={refresco.nombre}
-//                 {...refresco}
-//               />{" "}
-//             </div>
-//           );
-//         });
-//       } else if (aguas) {
-//         return aguas.map((agua, index) => {
-//           return (
-//             <div className="column is-one-quarter">
-//               <CardItem key={agua.nombre} {...agua} />{" "}
-//             </div>
-//           );
-//         });
-//       } else {
-//         return null;
-//       }
-//     }
-//   })
-// )}
