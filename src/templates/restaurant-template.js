@@ -73,7 +73,16 @@ export default function RestaurantTemplate({ data }) {
   }, []);
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+   return (
+      <>
+        <SEO />
+        <Header {...header} />
+        <Layout>
+          <div>Error: {`${error}`}</div>;
+        </Layout>
+        <Footer {...footer} />
+      </>
+    );
   } else {
     return (
       <>
