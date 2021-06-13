@@ -33,75 +33,43 @@ export default function RestaurantTemplate({ data }) {
   const [collapse, setCollapse] = useState(false);
 
   useEffect(() => {
-    fetch("http://18.191.197.120:3000/api/categorias")
-      .then((request) => {
-        const object = request.json();
-        return object;
-      })
-      .then((object) => {
-        console.log(object);
-        setCategorias(object);
-        setLoading(false);
+    axios
+      .get("http://18.191.197.120:3000/api/categorias")
+      .then(({ data }) => {
+        setCategorias(data);
       })
       .catch((err) => {
-        return console.log(err.message);
+        setError(err.message);
       });
-    console.log(categorias);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://18.191.197.120:3000/api/bebidas")
+      .then(({ data: { bebidas } }) => {
+        bebidas.map(({ refrescos, aguas, alcohol }) => {
+          if (refrescos !== undefined) {
+            setCartaRefrescos(refrescos);
+          } else if (aguas !== undefined) {
+            setCartaAguas(aguas);
+          } else if (alcohol !== undefined) {
+            setCartaAlcohol(alcohol);
+          }
+        });
+
+        setCarta(cartaRefrescos);
+      });
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://18.191.197.120:3000/api/bebidas")
-      .then((request) => {
-        // return res.json();
-        const object = request.json();
-        return object;
-      })
-      .then(
-        (objeto) => {
-          // console.log("result: ", result);
-          setLoading(false);
-
-          // setCarta([result]);
-          const { bebidas } = objeto;
-          bebidas.map(({ refrescos, aguas, alcohol }) => {
-            if (refrescos !== undefined) {
-              setCartaRefrescos(refrescos);
-            } else if (aguas !== undefined) {
-              setCartaAguas(aguas);
-            } else if (alcohol !== undefined) {
-              setCartaAlcohol(alcohol);
-            }
-          });
-
-          // setCartaBebidas(bebidas);
-          setCarta(cartaRefrescos);
-          console.log("carta :", carta);
-        },
-        (error) => {
-          console.log("error: ", error);
-          setLoading(false);
-          setError(error);
-        }
-      )
-      .catch((err) => {
-        return console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("http://18.191.197.120:3000/api/entrantes")
-      .then((request) => {
-        const object = request.json();
-        return object;
-      })
-      .then((objeto) => {
-        setCartaEntrantes(objeto);
-      })
-      .catch((err) => {
-        return console.log(err.message);
-      });
+    axios.get("http://18.191.197.120:3000/api/entrantes").then(({ data }) => {
+      console.log(data);
+      setCartaEntrantes(data);
+      setLoading(false);
+    });
   }, []);
 
   if (error) {
