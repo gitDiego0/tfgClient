@@ -1,6 +1,6 @@
 var proxy = require("http-proxy-middleware");
 
- const URL = "http://18.218.182.220:3000"
+ const URL = "http://18.191.197.120:3000"
 //const URL = "http:hostalapp:3000";
 
 module.exports = {
