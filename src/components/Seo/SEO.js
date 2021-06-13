@@ -14,7 +14,6 @@ const SEO = () => {
     },
   } = useStaticQuery(medataQuery);
 
-  console.log(siteTitle);
   return (
     <>
       <Helmet title={siteTitle}>

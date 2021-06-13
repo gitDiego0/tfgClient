@@ -11,10 +11,16 @@ export default function Carousel({ images }) {
   };
 
   useEffect(() => {
+    let isMounted = true;
     setTimeout(() => {
-      slideImage();
+      if (isMounted) {
+        slideImage();
+      }
     }, 60000);
-  });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <>

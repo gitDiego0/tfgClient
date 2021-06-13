@@ -1,11 +1,14 @@
 var proxy = require("http-proxy-middleware");
 
+// const URL = "http://18.218.182.220:3000"
+const URL = "http:hostalapp:3000";
+
 module.exports = {
   developMiddleware: (app) => {
     app.use(
       "/api",
       proxy({
-        target: "http://18.218.182.220:3000",
+        target: `${URL}`,
       })
     );
   },
@@ -16,9 +19,9 @@ module.exports = {
     {
       resolve: `gatsby-plugin-paypal`,
       options: {
-        clientId: `AQn2sD9T6S6P7JER_d-kVqS0RjN467WDmoJwR0UBBDDTV89CYyNMVoYngM-cXG3HbquzwFRLDczXUD1i`,
+        clientId: `Ad8AdKBC2H0hXNW_nhLgSwqHKWta4yZsJLAKvZ7_ugMC5BsUAi5H1LxcMoRP6GTUt32PXm4hjtbWDpGU`,
         currency: `EUR`,
-        vault: true,
+        vault: false,
       },
     },
     {
@@ -47,7 +50,7 @@ module.exports = {
 };
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  if (stage === "build-html" || stage === "develop-html") {
+  if (stage === "build-html") {
     actions.setWebpackConfig({
       module: {
         rules: [
@@ -57,6 +60,6 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
           },
         ],
       },
-    })
+    });
   }
-}
+};

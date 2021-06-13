@@ -1,17 +1,27 @@
-import React,{useState,useRef} from 'react'
+import React, { useState, useRef } from "react";
+import Paypal from "gatsby-plugin-paypal";
 
-export default function PaypalButton() {
-
-    const [pago,setPago] = useState(false)
-    const [error,setError] = useState(null)
-
-    const paypalRef = useRef()
-
-    return (
-        <>
-            <div>
-
-            </div>
-        </>
-    )
+export default function PaypalButton({
+  amount,
+  onApprove,
+  onError,
+  onSuccess,
+  onCancel,
+}) {
+  return (
+    <Paypal
+      style={{
+        shape: "rect",
+        color: "blue",
+        layout: "horizontal",
+        label: "paypal",
+      }}
+      amount={amount}
+      currency="EUR"
+      onApprove={onApprove}
+      onSuccess={onSuccess}
+      onError={onError}
+      onCancel={onCancel}
+    />
+  );
 }

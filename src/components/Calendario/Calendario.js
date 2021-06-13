@@ -7,8 +7,6 @@ const checkDates = (fecha) => {
   const hoy = new Date();
   const date = new Date(fecha);
 
-  console.log(date - hoy);
-
   if (date > hoy) {
     return date;
   } else {
@@ -16,7 +14,7 @@ const checkDates = (fecha) => {
   }
 };
 
-export default function Calendario({ fechaMaxima, fechaMinima }) {
+export default function Calendario({ fechaMaxima, fechaMinima, setFechas }) {
   const { width } = useWindowSize;
   const context = useContext(roomContext);
   const fechaMin = checkDates(fechaMinima);
@@ -30,8 +28,16 @@ export default function Calendario({ fechaMaxima, fechaMinima }) {
     },
   ]);
 
+  useEffect(() => {
+    setFechas({
+      fecha_entrada: context.fechaEntrada,
+      fecha_salida: context.fechaSalida,
+    });
+  }, [dateRange]);
+
   const handleDateSelect = (date) => {
     setDateRange([date.selection]);
+
     context.fechaEntrada = date.selection.startDate;
     context.fechaSalida = date.selection.endDate;
     // context.setDatos({
@@ -39,7 +45,6 @@ export default function Calendario({ fechaMaxima, fechaMinima }) {
     //   ["fechaEntrada"]: date.selection.startDate,
     //   ["fechaSalida"]: date.selection.endDate,
     // });
-    console.log("datos: ", context);
   };
 
   return (

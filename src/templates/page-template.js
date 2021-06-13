@@ -145,7 +145,7 @@ export const pageQuery = graphql`
               title
               imageAbove
               image {
-                fluid(maxHeight: 500, maxWidth: 500) {
+                fluid(maxHeight: 1080, maxWidth: 1920) {
                   srcWebp
                 }
               }

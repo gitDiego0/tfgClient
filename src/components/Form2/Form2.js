@@ -1,17 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
 import { navigate } from "gatsby";
 
-import Paypal from "gatsby-plugin-paypal";
-
 import ComponentList from "../../utils/ComponentList";
 import { roomContext } from "../../hooks/contexto";
 import getPrice from "../../hooks/getPrice";
 
+import PaypalButton from "../PaypalButton/PaypalButton";
+import GooglePay from "../GooglePayButton/GooglePay";
+
 export default function Form2(props) {
-  const { items, numeroHabitacion, precio } = props;
+  const { items } = props;
   const context = useContext(roomContext);
-  console.log("form2: ", context);
   const [valores, setValores] = useState();
+  const [disable, setDisable] = useState("none");
+  const onSuccess = () => {
+    // sendForm();
+    console.log("success");
+  };
+
+  const onError = () => {
+    return alert("cancelado");
+  };
+
+  const onAprove = () => {
+    console.log("aprobado");
+  };
+
+  const onCancel = () => {
+    console.log("cancelado");
+  };
 
   const sendForm = () => {
     const requestOptions = {
@@ -22,12 +39,13 @@ export default function Form2(props) {
       }),
     };
     fetch(
-      `http://127.0.0.1:3000/form-submited/${context.numeroHabitacion}`,
+      `http://127.0.0.1:3000/form-submited/${numeroHabitacion}`,
       requestOptions
     ).then((req) => {
       req.status === 200
         ? navigate("/formulario-reserva-success", {
             state: { email: valores.email },
+            replace: true,
           })
         : navigate("/formulario-reserva/error");
     });
@@ -35,7 +53,9 @@ export default function Form2(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    sendForm();
+    // sendForm();
+    setDisable("unset");
+    console.log(disable);
   };
 
   const handleChange = (nuevoValor) => {
@@ -45,12 +65,13 @@ export default function Form2(props) {
     });
   };
 
+  const fEntrada = context.fechaEntrada;
+  const fSalida = context.fechaSalida;
+  const precio = context.precio;
+  const numeroHabitacion = context.numeroHabitacion;
+  const precioFinal = getPrice(precio, fEntrada, fSalida);
   useEffect(() => {
-    const fEntrada = context.fechaEntrada;
-    const fSalida = context.fechaSalida;
-    const precio = context.precio;
-    const numeroHabitacion = context.numeroHabitacion;
-    const precioFinal = getPrice(precio, fEntrada, fSalida);
+    console.log(precioFinal);
     setValores({
       ...valores,
       ["fechaEntrada"]: fEntrada,
@@ -86,6 +107,21 @@ export default function Form2(props) {
           >
             Continuar
           </button>
+          {/* <PaypalButton
+            amount={precioFinal}
+            onAprove={onAprove}
+            onSuccess={onSuccess}
+            onError={onError}
+            onCancel={onCancel}
+          /> */}
+
+          <GooglePay
+            precio={precioFinal}
+            onError={onError}
+            onCancel={onCancel}
+            onLoadPaymentData={sendForm}
+            disable={disable}
+          />
         </form>
       </div>
     </div>

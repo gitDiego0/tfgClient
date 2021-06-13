@@ -11,7 +11,7 @@ const firebaseConfig = {
 };
 
 if (typeof window !== "undefined") {
-   !firebase.apps.length && firebase.initializeApp(firebaseConfig);
+  !firebase.apps.length && firebase.initializeApp(firebaseConfig);
 }
 
 const db = firebase.firestore();

@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "gatsby";
 import useWindowSize from "../../hooks/useWindowSize";
 import { roomContext } from "../../hooks/contexto";
+import useDates from "../../hooks/useDates";
 
 export default function CardRoom({
   image,
@@ -21,6 +22,11 @@ export default function CardRoom({
     precio: `${precio}`,
   };
   const context = useContext(roomContext);
+
+  useEffect(() => {
+    console.log("fechas en habitacion", context.precio);
+  });
+
   return width >= 992 ? (
     <div className="card">
       <header className="">

@@ -10,7 +10,6 @@ export default function FormInput(props) {
   return (
     <div className="field">
       {inputs.map((item, index) => {
-        console.log("item: ", item.required);
         const Component = item.__typename;
         return Component === "ContentfulItemLabelTag" ? (
           <label id={item.name} className="label" key={index}>

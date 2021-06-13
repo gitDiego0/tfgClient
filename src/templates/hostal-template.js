@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { graphql } from "gatsby";
+
+import { roomContext } from "../hooks/contexto";
 
 import Layout from "../components/layout.js";
 import SEO from "../components/Seo/SEO";
@@ -14,6 +16,12 @@ import "../styles/style.scss";
 export default function HostalTemplate({ data }) {
   const hostalQuery = data.contentfulPage;
   const { items, header, footer } = hostalQuery;
+  const context = useContext(roomContext);
+
+  const [fechas, setFechas] = useState({
+    fecha_entrada: undefined,
+    fecha_salida: undefined,
+  });
 
   return (
     <>
@@ -21,9 +29,17 @@ export default function HostalTemplate({ data }) {
       <Header {...header} />
       <Layout>
         {items.map((item, index) => {
-          // console.log("item", item);
           const Component = ComponentList[item.__typename];
-          return Component ? <Component key={index} {...item} /> : null;
+          if (item.__typename === "ContentfulComponentCard") {
+            return Component ? (
+              <Component key={index} fechas={fechas} {...item} />
+            ) : null;
+          } else if (item.__typename === "ContentfulItemCalendario") {
+            return Component ? (
+              <Component key={index} setFechas={setFechas} {...item} />
+            ) : null;
+          }
+          return Component;
         })}
       </Layout>
       <Footer {...footer} />
