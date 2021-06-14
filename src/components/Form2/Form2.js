@@ -33,7 +33,7 @@ export default function Form2(props) {
 
   const sendForm = () => {
     axios
-      .post(`http://127.0.0.1:3000/form-submited/${numeroHabitacion} `, {
+      .post(`http://18.116.163.149/form-submited/${numeroHabitacion} `, {
         valores,
       })
       .then((res) => {
@@ -113,13 +113,7 @@ export default function Form2(props) {
           >
             Continuar
           </button>
-          {/* <PaypalButton
-            amount={precioFinal}
-            onAprove={onAprove}
-            onSuccess={onSuccess}
-            onError={onError}
-            onCancel={onCancel}
-          /> */}
+          
 
           <GooglePay
             precio={precioFinal}
