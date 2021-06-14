@@ -9,20 +9,15 @@ export default function ContactForm(props) {
   const [valores, setValores] = useState();
 
   const sendForm = () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    axios
+      .post("http://18.116.163.149:3000/contact", {
         valores,
-      }),
-    };
-    fetch(`http://18.218.182.220:3000/contact`, requestOptions).then((req) => {
-      if (req.status === 200) {
-        alert("hola");
-      } else {
-        alert("adios");
-      }
-    });
+      })
+      .then((res) => {
+        res.status === 200
+          ? alert("Mensaje enviado correctamente")
+          : alert("Error al mandar el mensaje. Vuelva a intentarlo mas tarde");
+      });
   };
 
   const handleSubmit = (event) => {
