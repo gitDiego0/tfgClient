@@ -33,7 +33,7 @@ export default function Form2(props) {
 
   const sendForm = () => {
     axios
-      .post(`http://18.116.163.149/form-submited/${numeroHabitacion} `, {
+      .post(`http://18.116.163.149:3000/form-submited/${numeroHabitacion} `, {
         valores,
       })
       .then((res) => {
