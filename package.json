@@ -17,6 +17,7 @@
   "dependencies": {
     "@creativebulma/bulma-collapsible": "^1.0.4",
     "@google-pay/button-react": "^2.4.0",
+    "axios": "^0.21.1",
     "date-fns": "^2.21.3",
     "firebase": "^8.6.5",
     "font-awesome": "^4.7.0",

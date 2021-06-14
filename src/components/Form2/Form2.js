@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { navigate } from "gatsby";
+import axios from 'axios'
 
 import ComponentList from "../../utils/ComponentList";
 import { roomContext } from "../../hooks/contexto";
