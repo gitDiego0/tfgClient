@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { navigate } from "gatsby";
-import axios from 'axios'
+import axios from "axios";
 
 import ComponentList from "../../utils/ComponentList";
 import { roomContext } from "../../hooks/contexto";
 import getPrice from "../../hooks/getPrice";
 
-import PaypalButton from "../PaypalButton/PaypalButton";
 import GooglePay from "../GooglePayButton/GooglePay";
 
 export default function Form2(props) {
@@ -14,10 +13,6 @@ export default function Form2(props) {
   const context = useContext(roomContext);
   const [valores, setValores] = useState();
   const [disable, setDisable] = useState("none");
-  const onSuccess = () => {
-    // sendForm();
-    console.log("success");
-  };
 
   const onError = () => {
     return alert("cancelado");
@@ -30,7 +25,6 @@ export default function Form2(props) {
   const onCancel = () => {
     console.log("cancelado");
   };
-
   const sendForm = () => {
     axios
       .post(`http://18.116.163.149:3000/form-submited/${numeroHabitacion} `, {
@@ -77,7 +71,7 @@ export default function Form2(props) {
   const numeroHabitacion = context.numeroHabitacion;
   const precioFinal = getPrice(precio, fEntrada, fSalida);
   useEffect(() => {
-    console.log(precioFinal);
+    console.log("precioFinal", precioFinal);
     setValores({
       ...valores,
       ["fechaEntrada"]: fEntrada,
@@ -113,7 +107,6 @@ export default function Form2(props) {
           >
             Continuar
           </button>
-          
 
           <GooglePay
             precio={precioFinal}

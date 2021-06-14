@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function CardItem({ imagen, precio, nombre }) {
-  console.log("nombre: ", nombre);
   return (
     <div className="column is-one-quarter">
       <div className="card">

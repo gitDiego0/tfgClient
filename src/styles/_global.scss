@@ -26,6 +26,14 @@ main {
   }
 }
 
+.is-divider {
+  position: relative;
+  display: block;
+  border-top: 0.1rem solid #7a7a7a;
+  font-weight: 600;
+  margin: 25px 0;
+}
+
 .modal-card-body {
   form {
     padding: 0;

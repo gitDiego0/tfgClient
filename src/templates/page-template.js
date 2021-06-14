@@ -19,17 +19,14 @@ const PageTemplate = ({ data }) => {
   contexto.header = { ...header };
   contexto.footer = { ...footer };
 
-  console.log("data", data);
-
   return (
     <>
       <SEO />
       <Header {...header} />
       <Layout>
+        {/* Bucle que recorre los componentes que llegan por props y los renderiza en el componente Layout */}
         {items.map((item, index) => {
-          // console.log("item", item);
           const Component = ComponentList[item.__typename];
-          console.log("component: ", Component);
           return Component ? <Component key={index} {...item} /> : null;
         })}
       </Layout>

@@ -40,11 +40,6 @@ export default function Calendario({ fechaMaxima, fechaMinima, setFechas }) {
 
     context.fechaEntrada = date.selection.startDate;
     context.fechaSalida = date.selection.endDate;
-    // context.setDatos({
-    //   ...context.datos,
-    //   ["fechaEntrada"]: date.selection.startDate,
-    //   ["fechaSalida"]: date.selection.endDate,
-    // });
   };
 
   return (
