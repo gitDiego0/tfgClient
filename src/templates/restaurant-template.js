@@ -27,16 +27,25 @@ export default function RestaurantTemplate({ data }) {
   const [cartaAguas, setCartaAguas] = useState();
   const [cartaAlcohol, setCartaAlcohol] = useState();
   const [cartaEntrantes, setCartaEntrantes] = useState();
+  const [cartaTartas, setCartaTartas] = useState();
+  const [cartaHelados, setCartaHelados] = useState();
+  const [cartaCafes, setCartaCafes] = useState();
 
   //Estado que indica si la pagina esta cargando.Se usa para cambiar comportamientos de componentes dependiendo si la pagina esta cargada o no
   const [loading, setLoading] = useState(true);
   //Estado que controla si se abre o se cierra el menu desplegable
   const [collapse, setCollapse] = useState(false);
+  const [collapse2, setCollapse2] = useState(false);
+
+  //Efectos que se ejecutan al cargar la página por primera vez.
+  //Se encargan de traer los productos almacenados en la base de datos y
+  //almacenarlos en los estados indicados para mostrarlos cuando sea necesario
 
   useEffect(() => {
     axios
-      .get("http://18.191.197.120:3000/api/categorias")
+      .get("http://18.116.163.149:3000/api/categorias")
       .then(({ data }) => {
+        // console.log("categorias", res);
         setCategorias(data);
       })
       .catch((err) => {
@@ -47,7 +56,7 @@ export default function RestaurantTemplate({ data }) {
 
   useEffect(() => {
     axios
-      .get("http://18.191.197.120:3000/api/bebidas")
+      .get("http://18.116.163.149:3000/api/bebidas")
       .then(({ data: { bebidas } }) => {
         bebidas.map(({ refrescos, aguas, alcohol }) => {
           if (refrescos !== undefined) {
@@ -66,29 +75,30 @@ export default function RestaurantTemplate({ data }) {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://18.191.197.120:3000/api/entrantes").then(({ data }) => {
-      console.log(data);
+    axios.get("http://18.116.163.149:3000/api/entrantes").then(({ data }) => {
       setCartaEntrantes(data);
       setLoading(false);
     });
   }, []);
 
-<<<<<<< HEAD
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetch("http://127.0.0.1:3000/api/entrantes")
-  //     .then((request) => {
-  //       const object = request.json();
-  //       return object;
-  //     })
-  //     .then((objeto) => {
-  //       setCartaEntrantes(objeto);
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       return console.log(err.message);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("http://18.116.163.149:3000/api/postres")
+      .then(({ data }) => {
+        data.map(({ tartas, helados, cafes }) => {
+          if (tartas !== undefined) {
+            setCartaTartas(tartas);
+          } else if (helados !== undefined) {
+            setCartaHelados(helados);
+          } else if (cafes !== undefined) {
+            setCartaCafes(cafes);
+          }
+        });
+      })
+      .catch((err) => {
+        return console.log(err.message);
+      });
+  }, []);
 
   if (error !== null) {
     return (
@@ -101,10 +111,6 @@ export default function RestaurantTemplate({ data }) {
         <Footer {...footer} />
       </>
     );
-=======
-  if (error) {
-    return console.log(error.message)
->>>>>>> d32863fa45d77bb0c06fae1187b005a189a46521
   } else {
     return (
       <>
@@ -200,10 +206,52 @@ export default function RestaurantTemplate({ data }) {
                               </span>
                             </div>
                           ) : nombre === "Postre" ? (
-                            <div className=" mt2">
-                              <span className=" mt-2 button green">
-                                {nombre}
-                              </span>
+                            <div className="mt-2">
+                              <a
+                                data-action="collpase"
+                                onClick={() => setCollapse2(!collapse2)}
+                              >
+                                <span className="button green">Postres ↓</span>
+                              </a>
+                              <div
+                                id="collapsible-card"
+                                className={
+                                  collapse2
+                                    ? " is-collapsible  is-active pl-3"
+                                    : "is-collapsible is-hidden pl-3"
+                                }
+                              >
+                                <div>
+                                  <span
+                                    onClick={() => {
+                                      setCarta(cartaCafes);
+                                    }}
+                                    className="mt-2 button green"
+                                  >
+                                    {" "}
+                                    Cafés
+                                  </span>
+                                </div>
+                                <div>
+                                  <span
+                                    onClick={() => {
+                                      setCarta(cartaHelados);
+                                    }}
+                                    className="mt-2 button green"
+                                  >
+                                    {" "}
+                                    Helados
+                                  </span>
+                                </div>
+                                <div>
+                                  <span
+                                    onClick={() => setCarta(cartaTartas)}
+                                    className="mt-2 button green"
+                                  >
+                                    Tartas
+                                  </span>
+                                </div>
+                              </div>
                             </div>
                           ) : null;
                         })
