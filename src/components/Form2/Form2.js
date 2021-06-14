@@ -31,24 +31,29 @@ export default function Form2(props) {
   };
 
   const sendForm = () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    axios
+      .post(`http://127.0.0.1:3000/form-submited/${numeroHabitacion} `, {
         valores,
-      }),
-    };
-    fetch(
-      `http://127.0.0.1:3000/form-submited/${numeroHabitacion}`,
-      requestOptions
-    ).then((req) => {
-      req.status === 200
-        ? navigate("/formulario-reserva-success", {
-            state: { email: valores.email },
+      })
+      .then((res) => {
+        res.status === 200
+          ? navigate("/formulario-reserva-success", {
+              state: { email: valores.email },
+              replace: true,
+            })
+          : navigate("/formulario-reserva/error", {
+              state: { error: "Error al realizar la reserva" },
+              replace: true,
+            });
+      })
+      .catch((err) => {
+        if (err) {
+          navigate("/formulario-reserva/error", {
+            state: { error: `${err.message}` },
             replace: true,
-          })
-        : navigate("/formulario-reserva/error");
-    });
+          });
+        }
+      });
   };
 
   const handleSubmit = (event) => {

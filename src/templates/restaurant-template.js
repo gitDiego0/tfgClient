@@ -73,6 +73,7 @@ export default function RestaurantTemplate({ data }) {
     });
   }, []);
 
+<<<<<<< HEAD
   // useEffect(() => {
   //   setLoading(true);
   //   fetch("http://127.0.0.1:3000/api/entrantes")
@@ -100,6 +101,10 @@ export default function RestaurantTemplate({ data }) {
         <Footer {...footer} />
       </>
     );
+=======
+  if (error) {
+    return console.log(error.message)
+>>>>>>> d32863fa45d77bb0c06fae1187b005a189a46521
   } else {
     return (
       <>
